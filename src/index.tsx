@@ -1,11 +1,20 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 export default function App() {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
   return (
-    <View style={style.container}>
-      <Text>Opa 4</Text>
-    </View>
+    <>
+      {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
+
+      <View style={style.container}>
+        <Text>Opa 4</Text>
+      </View>
+    </>
   );
 }
 
