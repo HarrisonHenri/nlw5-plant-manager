@@ -1,25 +1,16 @@
-import React, { useCallback, useState } from 'react';
-import { StyleSheet, Text, SafeAreaView, View, TextInput } from 'react-native';
+import React, { useCallback } from 'react';
+import { StyleSheet, Text, SafeAreaView, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import colors from '../styles/colors';
 
 import Button from '../components/Button';
 
 const Confirmation: React.FC = () => {
-  const [isFocused, setIsFocused] = useState(false);
-  const [name, setName] = useState('');
+  const navigation = useNavigation();
 
-  const handleNavigation = useCallback(() => {}, []);
-
-  const handleInputBlur = useCallback(() => {
-    setIsFocused(false);
-  }, []);
-  const handleInputFocus = useCallback(() => {
-    setIsFocused(true);
-  }, []);
-
-  const handleInputChange = useCallback((value: string) => {
-    setName(value);
-  }, []);
+  const handleNavigation = useCallback(() => {
+    navigation.navigate('PlantSelect');
+  }, [navigation]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -30,7 +21,7 @@ const Confirmation: React.FC = () => {
           Agora vamos cuidar das suas plantinhas com muito cuidado.
         </Text>
         <View style={styles.footer}>
-          <Button title="Confirmar" />
+          <Button title="Confirmar" onPress={handleNavigation} />
         </View>
       </View>
     </SafeAreaView>

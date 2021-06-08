@@ -13,7 +13,7 @@ import { useNavigation } from '@react-navigation/core';
 import Icon from 'react-native-vector-icons/Entypo';
 import colors from '../styles/colors';
 
-import Background from '../../assets/watering.png';
+import Background from '../assets/watering.png';
 
 const Welcome: React.FC = () => {
   const navigation = useNavigation();
@@ -30,7 +30,11 @@ const Welcome: React.FC = () => {
             Gerencie {'\n'} suas plantas de {'\n'} forma fácil
           </Text>
 
-          <Image source={Background} style={styles.image} resizeMode="center" />
+          <Image
+            source={Background}
+            style={styles.image}
+            resizeMode="contain"
+          />
 
           <Text style={styles.subtitle}>
             Não esqueça mais de regar suas plantas. Nós cuidamos de lembrar você
