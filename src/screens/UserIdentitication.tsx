@@ -9,20 +9,27 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Keyboard,
+  Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import colors from '../styles/colors';
 
 import Button from '../components/Button';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const UserIdentification: React.FC = () => {
   const navigation = useNavigation();
   const [isFocused, setIsFocused] = useState(false);
   const [name, setName] = useState('');
 
-  const handleNavigation = useCallback(() => {
-    navigation.navigate('Confirmation');
-  }, [navigation]);
+  const handleNavigation = useCallback(async () => {
+    if (name !== '') {
+      navigation.navigate('Confirmation');
+      await AsyncStorage.setItem('@plantmanager:user', name);
+    } else {
+      Alert.alert('Me diz como chamar você 😢');
+    }
+  }, [navigation, name]);
 
   const handleInputBlur = useCallback(() => {
     setIsFocused(false);
