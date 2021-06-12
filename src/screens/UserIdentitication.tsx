@@ -24,8 +24,19 @@ const UserIdentification: React.FC = () => {
 
   const handleNavigation = useCallback(async () => {
     if (name !== '') {
-      navigation.navigate('Confirmation');
-      await AsyncStorage.setItem('@plantmanager:user', name);
+      navigation.navigate('Confirmation', {
+        title: 'Prontinho',
+        subtitle:
+          'Agora vamos começar a cuidar das suas plantinhas com muito cuidado.',
+        buttonTitle: 'Confirmar',
+        icon: 'smile',
+        nextScreen: 'PlantSelect',
+      });
+      try {
+        await AsyncStorage.setItem('@plantmanager:user', name);
+      } catch {
+        Alert.alert('Não foi possível o seu nome 😢');
+      }
     } else {
       Alert.alert('Me diz como chamar você 😢');
     }
