@@ -1,19 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FlatList, Image, StyleSheet, Text, View, Alert } from 'react-native';
 import { formatDistance } from 'date-fns/esm';
 import { pt } from 'date-fns/locale';
-import { loadPlants, Plant } from '../libs/storage';
+import { loadPlants, Plant, removePlant } from '../libs/storage';
 import colors from '../styles/colors';
 
 import Header from '../components/Header';
 import WaterDrop from '../assets/waterdrop.png';
-import PlantCardPrimary from '../components/PlantCardPrimary';
 import PlantCardSecondary from '../components/PlantCardSecondary';
+import Load from '../components/Load';
 
 const MyPlants: React.FC = () => {
   const [plants, setPlants] = useState<Plant[]>([]);
   const [loading, setLoading] = useState(true);
   const [nextSprinkle, setNextSprinkle] = useState('');
+
+  const removeStorage = useCallback(async (plantId: string) => {
+    try {
+      await removePlant(plantId);
+      setPlants(old => old.filter(plant => plant.id !== plantId));
+    } catch {
+      Alert.alert('Não foi possível remover');
+    }
+  }, []);
+
+  const handleRemove = useCallback(
+    (plant: Plant) => {
+      Alert.alert('Remover', `Deseja mesmo remover a ${plant.name}`, [
+        { text: 'Não 🙏', style: 'cancel' },
+        { text: 'Sim 😥', onPress: removeStorage.bind(null, plant.id) },
+      ]);
+    },
+    [removeStorage],
+  );
 
   useEffect(() => {
     async function loadStorageData() {
@@ -34,6 +53,10 @@ const MyPlants: React.FC = () => {
     loadStorageData();
   }, []);
 
+  if (loading) {
+    return <Load />;
+  }
+
   return (
     <View style={styles.container}>
       <Header />
@@ -47,7 +70,12 @@ const MyPlants: React.FC = () => {
           data={plants}
           keyExtractor={item => String(item.id)}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => <PlantCardSecondary data={item} />}
+          renderItem={({ item }) => (
+            <PlantCardSecondary
+              data={item}
+              handleRemove={handleRemove.bind(null, item)}
+            />
+          )}
         />
       </View>
     </View>
@@ -61,7 +89,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop: 40,
     paddingHorizontal: 32,
     backgroundColor: colors.background,
   },
@@ -80,5 +107,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   plants: { flex: 1, width: '100%' },
-  plantsTitle: { fontSize: 24, color: colors.heading },
+  plantsTitle: { fontSize: 24, color: colors.heading, fontWeight: 'bold' },
 });

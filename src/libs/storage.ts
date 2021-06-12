@@ -57,7 +57,20 @@ export const loadPlants = async (): Promise<Plant[]> => {
           Math.floor(new Date(b.dateTimeNotification).getTime() / 1000),
       );
 
-    return plantsSorted;
+    return plantsSorted as Plant[];
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const removePlant = async (plantId: string): Promise<void> => {
+  try {
+    const data = await AsyncStorage.getItem('@plantmanager:plants');
+    const plants = data ? (JSON.parse(data) as StoragePlant) : {};
+
+    delete plants[plantId];
+
+    AsyncStorage.setItem('@plantmanager:plants', JSON.stringify({ ...plants }));
   } catch (error) {
     throw new Error(error);
   }
