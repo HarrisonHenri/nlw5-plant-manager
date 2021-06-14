@@ -105,7 +105,7 @@ const PlantSelect: React.FC = () => {
       <View style={styles.header}>
         <Header />
         <Text style={styles.title}>Em qual ambiente</Text>
-        <Text style={styles.subtitle}>vocês quer colocar sua planta</Text>
+        <Text style={styles.subtitle}>você quer colocar sua planta</Text>
       </View>
       <View>
         <FlatList
@@ -172,12 +172,12 @@ const styles = StyleSheet.create({
   environmentList: {
     height: 40,
     justifyContent: 'center',
-    paddingBottom: 8,
+    marginVertical: 8,
     paddingHorizontal: 30,
   },
   plants: {
     flex: 1,
-    padding: 32,
+    paddingHorizontal: 32,
     justifyContent: 'center',
   },
 });
