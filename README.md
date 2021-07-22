@@ -2,7 +2,7 @@
 
 ## About this Project
 
-_"The objective of the project is to help people to remember to water your plants based on Next Level Week 5 by [Rockeseat](https://rocketseat.com.br/)"._
+_"The objective of the project is to help people to remember to water your plants based on Next Level Week 5 by [Rockesea](https://rocketseat.com.br/)"._
 
 ## Why?
 
